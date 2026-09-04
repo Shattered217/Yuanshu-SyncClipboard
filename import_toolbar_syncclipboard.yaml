@@ -1,0 +1,21 @@
+toolbarItems:
+- name: 剪贴板
+  text: ''
+  systemImageName: clipboard
+  fontSize: 1.2e+1
+  lightNormalColor: 000000FF
+  lightHighlightColor: 000000FF
+  darkNormalColor: FFFFFFFF
+  darkHighlightColor: FFFFFFFF
+  action:
+    shortcut: '#showPasteboardView'
+- name: 共享剪贴板
+  text: ''
+  systemImageName: arrow.triangle.2.circlepath
+  fontSize: 1.2e+1
+  lightNormalColor: 000000FF
+  lightHighlightColor: 000000FF
+  darkNormalColor: FFFFFFFF
+  darkHighlightColor: FFFFFFFF
+  action:
+    runScript: 共享剪贴板
