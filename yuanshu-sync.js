@@ -115,12 +115,13 @@ async function output() {
     const profile = typeof profileResult.data === "string"
       ? JSON.parse(profileResult.data || "{}")
       : (profileResult.data || {})
-    if (profile.type !== "Text") {
-      throw new Error("远端内容是 " + String(profile.type) + "，元书脚本目前只支持文本")
+    if (!profile || ["Text", "Image", "File", "Group"].indexOf(profile.type) === -1) {
+      throw new Error("服务端剪贴板类型无效")
     }
 
+    const remoteIsText = profile.type === "Text"
     let remoteText = profile.text === null || profile.text === undefined ? "" : String(profile.text)
-    if (profile.hasData) {
+    if (remoteIsText && profile.hasData) {
       if (!profile.dataName) {
         throw new Error("远端文本缺少 dataName")
       }
@@ -140,7 +141,7 @@ async function output() {
     }
 
     const localText = $pasteboardContent === null ? "" : String($pasteboardContent)
-    if (localText === remoteText) {
+    if (remoteIsText && localText === remoteText) {
       safeLog("本机与远端剪贴板已经一致")
     } else {
       let localWasSynced = localText.length === 0
@@ -198,9 +199,11 @@ async function output() {
         })
         ensureSuccess(result)
         safeLog("检测到本机新内容，已上传 " + localText.length + " 个字符")
-      } else {
+      } else if (remoteIsText) {
         $setClipboard(remoteText)
         safeLog("检测到远端新内容，已下载 " + remoteText.length + " 个字符")
+      } else {
+        safeLog("远端为 " + profile.type + "，手机没有待上传的新文本，已跳过")
       }
     }
 

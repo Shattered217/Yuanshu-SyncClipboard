@@ -18,4 +18,4 @@ toolbarItems:
   darkNormalColor: FFFFFFFF
   darkHighlightColor: FFFFFFFF
   action:
-    runScript: 共享剪贴板
+    runScriptSilently: 共享剪贴板
